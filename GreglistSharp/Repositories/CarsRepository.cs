@@ -33,5 +33,26 @@ public class CarsRepository
 
   }
 
+  public Car GetCar(int id)
+  {
+    var sql = "SELECT * FROM cars WHERE id = @id";
+    return _db.Query<Car>(sql, new { id }).FirstOrDefault();
+  }
 
+  public Car DeleteCar(int id)
+  {
+    var sql = "DELETE FROM cars WHERE id = @id";
+    return _db.Query<Car>(sql, new { id }).FirstOrDefault();
+  }
+
+  public Car EditCar(Car carData, int id)
+  {
+    var sql = @" 
+    UPDATE cars SET 
+     make = @Make, model = @Model, year = @Year, price = @Price, description = @Description, imgUrl = @ImgUrl
+      WHERE id = @id;
+      ";
+    _db.Execute(sql, carData);
+    return carData;
+  }
 }
